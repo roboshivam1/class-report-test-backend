@@ -1,0 +1,9 @@
+flask
+whisper
+torch
+torchaudio
+tqdm
+numba
+google-generativeai
+smtplib
+email-validator
