@@ -1,11 +1,4 @@
 flask
-openai-whisper
-torch
-torchaudio
-tqdm
-numba
+assemblyai
 google-generativeai
-email-validator
 gunicorn
-
-
