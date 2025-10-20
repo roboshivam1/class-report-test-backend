@@ -1,5 +1,5 @@
 flask
-whisper
+openai-whisper
 torch
 torchaudio
 tqdm
@@ -7,4 +7,5 @@ numba
 google-generativeai
 email-validator
 gunicorn
+
 
