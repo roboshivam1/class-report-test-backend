@@ -1,6 +1,6 @@
 # backend.py
 from flask import Flask, request, jsonify
-import whisper
+import assemblyai as aai
 import google.generativeai as genai
 import tempfile
 import smtplib
@@ -11,17 +11,20 @@ import os
 GEMINI_API_KEY = "AIzaSyBxHQro_i4Lh0V1Yf4bUIDkM6wwlxjB60Y"
 genai.configure(api_key=GEMINI_API_KEY)
 
+ASSEMBLYAI_API_KEY = "5eba3f8a03514933a4687ced90dcb65d"
+aai.settings.api_key = ASSEMBLYAI_API_KEY
+
 EMAIL_ADDRESS = "shivamagain25@gmail.com"
 EMAIL_PASSWORD = "kstm bzmn xxyd vjpu"  # use app password if using Gmail
 
 # ---------- Initialize ----------
 app = Flask(__name__)
-model = whisper.load_model("base")  # Load once, reuse
 
 # ---------- HELPER FUNCTIONS ----------
-def transcribe_with_whisper(audio_file_path):
-    result = model.transcribe(audio_file_path, task='transcribe')
-    return result["text"]
+def transcribe_with_assemblyai(audio_file_path):
+    transcriber = aai.Transcriber()
+    transcript = transcriber.transcribe(audio_file_path)
+    return transcript.text
 
 def analyze_with_gemini(transcript):
     model_g = genai.GenerativeModel("gemini-2.0-flash")
@@ -103,7 +106,7 @@ def process_class():
             audio_path = tmp.name
 
         # ---------- Transcribe ----------
-        transcript = transcribe_with_whisper(audio_path)
+        transcript = transcribe_with_assemblyai(audio_path)
         transcript_file = f"{teacher_name}_transcript.txt"
         save_report(metadata, transcript, transcript_file)
 
